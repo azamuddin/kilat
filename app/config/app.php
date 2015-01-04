@@ -124,6 +124,7 @@ return array(
 		'Way\Generators\GeneratorsServiceProvider',
 		'Zizaco\Confide\ServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
+		'Zofe\Rapyd\RapydServiceProvider',
 
 	),
 
@@ -192,7 +193,7 @@ return array(
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
 		'Confide'			=> 'Zizaco\Confide\Facade',
-		'Entrust'			=> 'Zizaco\Confide\EntrustFacade'
+		'Entrust'			=> 'Zizaco\Entrust\EntrustFacade'
 
 	),
 

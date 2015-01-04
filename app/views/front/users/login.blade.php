@@ -20,7 +20,7 @@
         </label>
         <input class="form-control" tabindex="2" placeholder="{{{ Lang::get('confide::confide.password') }}}" type="password" name="password" id="password">
         <p class="help-block">
-            <a href="{{{ URL::to('/users/forgot_password') }}}">{{{ Lang::get('confide::confide.login.forgot_password') }}}</a>
+            <a href="{{{ URL::to('/users/forgot') }}}">{{{ Lang::get('confide::confide.login.forgot_password') }}}</a>
         </p>
         </div>
         <div class="checkbox">
