@@ -26,6 +26,5 @@ Route::controller( 'users', 'UsersController');
 Route::get('admin', array('before'=> 'auth', 'uses'=>function(){return View::make('base/admin');}));
 Route::group(array('prefix'=>'admin'), function()
 {
-	Route::get('users', array("as"=>"manage_users", "uses"=>"ManageUsersController@lists"));
-	Route::resource('users/manage','ManageUsersController');
+	Route::resource('users', 'ManageUsersController');
 });

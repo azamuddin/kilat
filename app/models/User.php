@@ -9,5 +9,6 @@ class User extends Eloquent implements ConfideUserInterface {
 	use ConfideUser;
 	use HasRole;
 
+	
 
 }

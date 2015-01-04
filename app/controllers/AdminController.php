@@ -8,6 +8,12 @@ class AdminController extends \BaseController {
 	{
 		$this->data_view = array();
 	}
+
+
+	protected function filterData($model)
+	{
+		
+	}
 	
 
 }

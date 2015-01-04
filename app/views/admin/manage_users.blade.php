@@ -4,6 +4,56 @@
 @section('content')
 	<h3>Manage Users</h3>
 	<hr>
-	{{$data_view['filter']}}
-	{{$data_view['model']}}
+
+<div class="row">
+	<div class="col-lg-12 filter" style="margin-bottom:20px;">
+		{{Form::open(array('url'=>'admin/users', 'method'=>'GET'))}}
+		<div class="col-lg-3">
+			{{Form::text('username', Input::get('username'), array('placeholder'=>'username', 'class'=>'form-control'))}}
+		</div>
+		<div class="col-lg-3">
+			{{Form::text('email', Input::get('email'), array('placeholder'=>'email', 'class'=>'form-control'))}}
+		</div>
+		{{Form::submit('Go', array('class'=>'btn btn-primary '))}}
+		{{Form::hidden('search', 1)}}
+		{{Form::close()}}
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Username</th>
+					<th>Email</th>
+					<th>Role</th>
+				</tr>
+			</thead>
+			<tbody>
+			@foreach($data_view['model'] as $user)
+				<tr>
+					<td>
+						{{$user->username}}
+					</td>
+					<td>
+						{{$user->email}}
+					</td>
+					<td>
+						@foreach($user->roles as $role)
+							<span class="label label-primary">{{$role->name}}</span> <br/>
+						@endforeach
+					</td>
+				</tr>
+			@endforeach
+			</tbody>
+			<tfoot>
+				<tr>
+					<th colspan="3">
+						{{$data_view['model']->links()}}
+					</th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>
 @stop
