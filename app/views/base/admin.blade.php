@@ -98,6 +98,20 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
+                    @section('content_header')
+                        @if(Session::get('success'))
+                            <div class="alert alert-success">
+                                {{Session::get('success')}}
+                            </div>
+                        @endif
+                        @if(Session::get('errors'))
+                            @foreach(Session::get('errors')->all() as $error)
+                                <div class="alert alert-danger">
+                                    {{$error}}
+                                </div>
+                            @endforeach
+                        @endif
+                    @show
                     @yield('content')
                 </div>
             </div>

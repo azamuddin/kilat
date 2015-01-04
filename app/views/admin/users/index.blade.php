@@ -1,10 +1,10 @@
 @extends('base/admin')
 
+@section('content_header')
+	<h3>Edit User</h3>
+@stop
 
 @section('content')
-	<h3>Manage Users</h3>
-	<hr>
-
 <div class="row">
 	<div class="col-lg-12 filter" style="margin-bottom:20px;">
 		{{Form::open(array('url'=>'admin/users', 'method'=>'GET'))}}
