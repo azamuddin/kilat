@@ -1,3 +1,12 @@
+@extends('base/front/users')
+
+@section('head')
+    <title>Login</title>
+@stop
+
+@section('user_form')
+<h3>Login</h3>
+<hr>
 <form role="form" method="POST" action="{{{ URL::to('/users/login') }}}" accept-charset="UTF-8">
     <input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
     <fieldset>
@@ -28,7 +37,8 @@
             <div class="alert">{{{ Session::get('notice') }}}</div>
         @endif
         <div class="form-group">
-            <button tabindex="3" type="submit" class="btn btn-default">{{{ Lang::get('confide::confide.login.submit') }}}</button>
+            <button tabindex="3" type="submit" class="btn btn-primary">{{{ Lang::get('confide::confide.login.submit') }}}</button>
         </div>
     </fieldset>
 </form>
+@stop

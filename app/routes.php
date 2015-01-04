@@ -22,3 +22,10 @@ Route::get('users/confirm/{code}', 'UsersController@getConfirm');
 Route::get('users/reset_password/{token}', 'UsersController@getReset');
 Route::get('users/reset_password', 'UsersController@postReset');
 Route::controller( 'users', 'UsersController');
+
+
+// Test
+Route::get('admin', function()
+{
+	return View::make('base/admin');
+});

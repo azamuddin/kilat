@@ -1,3 +1,12 @@
+@extends('base/front/users')
+
+@section('head')
+    <title>Create New Account</title>
+@stop
+
+@section('user_form')
+<h3>Create New Account</h3>
+<hr>
 <form method="POST" action="{{{ URL::to('users') }}}" accept-charset="UTF-8">
     <input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
     <fieldset>
@@ -36,3 +45,4 @@
 
     </fieldset>
 </form>
+@stop

@@ -1,3 +1,12 @@
+@extends('base/front/users')
+
+@section('head')
+    <title>Reset Password</title>
+@stop
+
+@section('user_form')
+<h3>Reset Password</h3>
+<hr>
 <form method="POST" action="{{{ URL::to('/users/reset_password') }}}" accept-charset="UTF-8">
     <input type="hidden" name="token" value="{{{ $token }}}">
     <input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
@@ -23,3 +32,4 @@
         <button type="submit" class="btn btn-primary">{{{ Lang::get('confide::confide.forgot.submit') }}}</button>
     </div>
 </form>
+@stop

@@ -1,3 +1,12 @@
+@extends('base/front/users')
+
+@section('head')
+    <title>Forgot Password</title>
+@stop
+
+@section('user_form')
+<h3>Forgot Password</h3>
+<hr>
 <form method="POST" action="{{ URL::to('/users/forgot_password') }}" accept-charset="UTF-8">
     <input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
 
@@ -6,7 +15,7 @@
         <div class="input-append input-group">
             <input class="form-control" placeholder="{{{ Lang::get('confide::confide.e_mail') }}}" type="text" name="email" id="email" value="{{{ Input::old('email') }}}">
             <span class="input-group-btn">
-                <input class="btn btn-default" type="submit" value="{{{ Lang::get('confide::confide.forgot.submit') }}}">
+                <input class="btn btn-warning" type="submit" value="{{{ Lang::get('confide::confide.forgot.submit') }}}">
             </span>
         </div>
     </div>
@@ -19,3 +28,4 @@
         <div class="alert">{{{ Session::get('notice') }}}</div>
     @endif
 </form>
+@stop
