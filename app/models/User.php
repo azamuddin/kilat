@@ -10,5 +10,7 @@ class User extends Eloquent implements ConfideUserInterface {
 	use HasRole;
 	protected $guarded = [];
 
+	
+
 
 }

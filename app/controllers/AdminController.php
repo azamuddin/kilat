@@ -17,20 +17,44 @@ class AdminController extends \BaseController {
 		// Tangkap filter
 		if(Input::get('search'))
 		{
-			$this->filter = Input::except('search');
+			$this->filter = Input::except('search', 'role');
 		}
 
-		$result = $model::orWhere(function($query)
+		if(Input::get('role'))
 		{
-			foreach($this->filter as $criteria => $value)
+			$result = $model::whereHas('roles', function($query)
 			{
-				if($value)
+				$query->where('roles.id', '=', Input::get('role'));
+			})
+
+			->where(function($query)
+			{
+				foreach($this->filter as $criteria => $value)
 				{
-					$query->where($criteria,"like", "%$value%");
+					if($value)
+					{
+						$query->where($criteria,"like", "%$value%");
+					}
+					
 				}
-				
-			}
-		});
+			});
+		}
+		else
+		{
+			$result = $model->where(function($query)
+			{
+				foreach($this->filter as $criteria => $value)
+				{
+					if($value)
+					{
+						$query->where($criteria,"like", "%$value%");
+					}
+					
+				}
+			});
+		}
+
+
 
 		return $result;
 	}

@@ -14,8 +14,11 @@
 		<div class="col-lg-3">
 			{{Form::text('email', Input::get('email'), array('placeholder'=>'email', 'class'=>'form-control'))}}
 		</div>
-		{{Form::submit('Go', array('class'=>'btn btn-primary '))}}
+		<div class="col-lg-3">
+			{{Form::select('role', array('0'=>'All')+Role::lists('name', 'id'), Input::get('role'))}}
+		</div>
 		{{Form::hidden('search', 1)}}
+		{{Form::submit('Go', array('class'=>'btn btn-primary '))}}
 		{{Form::close()}}
 	</div>
 </div>

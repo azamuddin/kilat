@@ -23,8 +23,9 @@ Route::get('users/reset_password/{token}', 'UsersController@getReset');
 Route::get('users/reset_password', 'UsersController@postReset');
 Route::controller( 'users', 'UsersController');
 
+Route::get('login', 'UsersController@getLogin');
 Route::get('admin', array('before'=> 'auth', 'uses'=>function(){return View::make('base/admin');}));
-Route::group(array('prefix'=>'admin'), function()
+Route::group(array('prefix'=>'admin', 'before'=> 'auth'), function()
 {
 	Route::resource('users', 'ManageUsersController');
 });
