@@ -23,9 +23,31 @@ Route::get('users/reset_password/{token}', 'UsersController@getReset');
 Route::get('users/reset_password', 'UsersController@postReset');
 Route::controller( 'users', 'UsersController');
 
-Route::get('login', 'UsersController@getLogin');
-Route::get('admin', array('before'=> 'auth', 'uses'=>function(){return View::make('base/admin');}));
-Route::group(array('prefix'=>'admin', 'before'=> 'auth'), function()
+
+// Admin
+Route::group(array('prefix'=>'admin', 'before'=> ''), function()
 {
+	// Admin Home
+	Route::get('/', array('as'=>'admin', 'before'=>'auth', 'uses'=>function(){return View::make('base/admin');}));
+
+	// Manage Users
 	Route::resource('users', 'ManageUsersController');
+
+	// Manage Roles
+	Route::get('roles', array('as'=>'roles.list', 'uses'=>'ManageRolesController@index'));
+	Route::get('manage/roles', 'ManageRolesController@rapyd');
+	Route::post('manage/roles', 'ManageRolesController@rapyd');
+	Route::patch('manage/roles', 'ManageRolesController@rapyd');
+	Route::delete('manage/roles', 'ManageRolesController@rapyd');
+
+	// Manage Permissions
+	Route::get('permissions', array('as'=>'permissions.list', 'uses'=>'ManagePermissionsController@index'));
+	Route::get('manage/permissions', 'ManagePermissionsController@rapyd');
+	Route::post('manage/permissions', 'ManagePermissionsController@rapyd');
+	Route::patch('manage/permissions', 'ManagePermissionsController@rapyd');
+	Route::delete('manage/permissions', 'ManagePermissionsController@rapyd');
+
 });
+
+// App's routes
+Route::get('login', 'UsersController@getLogin');

@@ -1,1 +1,0 @@
-/Users/azamuddin/Development/cat/app/views/admin/manage_permissions.blade.php

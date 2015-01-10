@@ -70,20 +70,20 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a>
+                            <a href="{{route('admin')}}"><i class="fa fa-dashboard"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="index.html"><i class="fa fa-users"></i> Manage Users</a>
+                            <a href="{{route('admin.users.index')}}"><i class="fa fa-users"></i> Manage Users</a>
                         </li>
 
                         <li>
                             <a href="#"><i class="fa fa-wrench"></i> Roles & Permissions<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="buttons.html">Roles</a>
+                                    <a href="{{route('roles.list')}}">Roles</a>
                                 </li>
                                 <li>
-                                    <a href="notifications.html">Permissions</a>
+                                    <a href="{{route('permissions.list')}}">Permissions</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
