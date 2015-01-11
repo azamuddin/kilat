@@ -3,8 +3,6 @@
 class ManageRolesController extends AdminController{
 	use FilterFieldTrait;
 
-	public $relation_fields = ["permissions", "user"];
-	public $model;
 
 	public function __construct()
 	{
@@ -45,57 +43,43 @@ class ManageRolesController extends AdminController{
 
 
 		// Don't allow super administrator and administrator role to be edited
-		if(Input::get('modify') || Input::get('update'))
+		if(Input::get('modify') || Input::get('update') || Input::get('delete'))
 		{
 
 			$id = Input::get('modify') ? Input::get('modify') : Input::get('update');
+			$id = $id ? $id : Input::get('delete');
 			$role = $this->model->findOrFail($id);
 
 			if(($role->name == "Super Administrator" || $role->name == "Administrator"))
 			{
+				if(Input::get('delete'))
+				{
+					return Redirect::back()
+								->with('msg', 'This role can not be deleted')
+								->with('msg-type', 'danger')
+								->with('msg-timeout', true);
+				}
 				$edit->add('name', 'Name', 'text')->mode('readonly');
 			}
+
+
+
 		}
+
+		$edit->saved(function() use($edit)
+			{
+				return Redirect::back()
+						->with('msg', 'Successfully saved')
+						->with('msg-type', 'success')
+						->with('msg-timeout', true);
+			});
 
 
 
 		$data_view['edit'] = $edit;
 
-		return View::make('base/rapyd/crud', compact('data_view'));
+		return $edit->view('base/rapyd/crud', compact('data_view'));
 
 	}
-
-
-
-
-	// public function edit($id)
-	// {
-	// 	return "edit $id siap";
-	// }
-
-	// public function update($id)
-	// {
-	// 	return "update $id siap";
-	// }
-
-	// public function show($id)
-	// {
-	// 	return "show $id siap";
-	// }
-
-	// public function create()
-	// {
-	// 	return "create siap";
-	// }
-
-	// public function store()
-	// {
-	// 	return "store siap";
-	// }
-
-	// public function destroy($id)
-	// {
-	// 	return "destroy $id siap";
-	// }
 }
 ?>

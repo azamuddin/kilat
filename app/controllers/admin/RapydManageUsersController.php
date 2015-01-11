@@ -56,17 +56,18 @@ class RapydManageUsersController extends AdminController {
 		$data_view = $this->data_view;
 
 		
-		if(Input::get('modify') || Input::get('update'))
+		if(Input::get('modify') || Input::get('update') || Input::get('delete'))
 		{
 			$id = Input::get('modify') ? Input::get('modify') : Input::get('update');
+			$id = $id ? $id : Input::get('delete');
 			$user = User::find($id);
 
 
-			// Administrator are not allowed to edit other administrator
+			// Administrator are not allowed to edit or delete other administrator
 			if(Auth::user()->hasRole('Administrator') && $user->hasRole('Administrator'))
 			{
-				return Redirect::to("admin/manage/users?show=$id")
-							->with('msg', 'Administrator are not allowed to edit other Administrator')
+				return Redirect::back()
+							->with('msg', 'Only Super Administrator can edit or delete Administrator account')
 							->with('msg-type', 'danger')
 							->with('msg-timeout', true);
 			}
@@ -74,7 +75,10 @@ class RapydManageUsersController extends AdminController {
 			// If super admin, don't allow to be edited
 			if($user->username == 'superadmin')
 			{
-				return Redirect::to("admin/manage/users?show=$id");
+				return Redirect::back()
+							->with('msg', 'Username superadmin is not allowed to be edited or deleted' )
+							->with('msg-type', 'danger')
+							->with('msg-timeout', true);
 			}
 		}
 

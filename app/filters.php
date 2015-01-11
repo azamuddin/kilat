@@ -89,28 +89,6 @@ Route::filter('csrf', function()
 	}
 });
 
-// Manage role
-Route::filter('manage_roles', function()
-{
-    if (! Entrust::can('manage_roles') ) // Checks the current user
-    {
-        return Redirect::to('admin')
-        		->with('msg', 'You don\'t have enough permission to access the page')
-       			->with('msg-type', 'danger');
-    }
-});
-
-// Manage permission
-Route::filter('manage_permissions', function()
-{
-    if (! Entrust::can('manage_permissions') ) // Checks the current user
-    {
-        return Redirect::to('admin')
-        		->with('msg', 'You don\'t have enough permission to access the page')
-       			->with('msg-type', 'danger');
-    }
-});
-
 // Super Administrator only
 Route::filter('super_administrator_only', function()
 {
@@ -132,5 +110,5 @@ Route::filter('administrator', function()
 	{
 		return App::abort(403);
 	}
-	
+
 });
