@@ -89,7 +89,7 @@ Route::filter('csrf', function()
 	}
 });
 
-// Manage role filter
+// Manage role
 Route::filter('manage_roles', function()
 {
     if (! Entrust::can('manage_roles') ) // Checks the current user
@@ -100,8 +100,37 @@ Route::filter('manage_roles', function()
     }
 });
 
+// Manage permission
+Route::filter('manage_permissions', function()
+{
+    if (! Entrust::can('manage_permissions') ) // Checks the current user
+    {
+        return Redirect::to('admin')
+        		->with('msg', 'You don\'t have enough permission to access the page')
+       			->with('msg-type', 'danger');
+    }
+});
 
-Entrust::routeNeedsRole('admin', array('Super Administrator', 'Administrator'), Redirect::to('login'), false );
-Entrust::routeNeedsRole('admin/*', array('Super Administrator', 'Administrator'), Redirect::to('login'), false );
+// Super Administrator only
+Route::filter('super_administrator_only', function()
+{
+	if(! Entrust::hasRole('Super Administrator'))
+	{
+		return App::abort(404);
+	}
+});
 
-Route::when('admin/roles', 'manage_roles');
+// Super Administrator or Administrator
+Route::filter('administrator', function()
+{
+	if( !Auth::check())
+	{
+		return Redirect::to('login');
+	}
+
+	if( !(Entrust::hasRole('Super Administrator') || Entrust::hasRole('Administrator')))
+	{
+		return App::abort(403);
+	}
+	
+});

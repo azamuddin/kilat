@@ -27,7 +27,18 @@ class RapydManageUsersController extends AdminController {
 		$grid = DataGrid::source($filter);
 		$grid->add('username', 'Username');
 		$grid->add('email', 'Email');
+		$grid->add('confirmed', 'Confirmed?')->cell(function($value) 
+			{
+				$value = ($value == 1) ? "<span class='label label-success'>yes</span>" : "<span class='label label-danger'>no</span>";
+				return $value;
+			});
 		$grid->edit('manage/users', 'Action');
+		$grid->add('{{$id}}', 'Confirm action')->cell(function($value)
+			{
+				$status = User::find($value)->confirmed;
+				$return = ($status == 1) ? "<a href='manage/users/toggle_confirm/$value' class='btn btn-xs btn-danger'>unconfirm</a>" : "<a href='manage/users/toggle_confirm/$value' class='btn btn-xs btn-success'>confirm</a>";
+				return $return;
+			});
 		$grid->link('admin/manage/users/', 'Add New User', 'TR', array('class'=>'btn btn-primary'));
 
 		$data_view['filter'] = $filter;
@@ -45,12 +56,22 @@ class RapydManageUsersController extends AdminController {
 		$data_view = $this->data_view;
 
 		
-		// If super admin, make it uneditable
 		if(Input::get('modify') || Input::get('update'))
 		{
 			$id = Input::get('modify') ? Input::get('modify') : Input::get('update');
 			$user = User::find($id);
 
+
+			// Administrator are not allowed to edit other administrator
+			if(Auth::user()->hasRole('Administrator') && $user->hasRole('Administrator'))
+			{
+				return Redirect::to("admin/manage/users?show=$id")
+							->with('msg', 'Administrator are not allowed to edit other Administrator')
+							->with('msg-type', 'danger')
+							->with('msg-timeout', true);
+			}
+
+			// If super admin, don't allow to be edited
 			if($user->username == 'superadmin')
 			{
 				return Redirect::to("admin/manage/users?show=$id");
@@ -75,6 +96,56 @@ class RapydManageUsersController extends AdminController {
 
 		$data_view['edit'] = $edit;
 		return $edit->view('base/rapyd/crud', compact('data_view'));
+
+	}
+
+
+
+
+
+	public function toggleConfirm($id)
+	{
+		$user = User::findOrFail($id);
+		$status = $user->confirmed;
+
+		if($status)
+		{
+			$user->confirmed = 0;
+			if($user->save())
+			{
+				return Redirect::back()
+						->with('msg', 'User successfully unconfirmed')
+						->with('msg-type', 'success')
+						->with('msg-timeout', true);
+			}
+			else
+			{
+				return Redirect::back()
+						->with('msg', 'There\'s an error' )
+						->with('msg-type', 'danger')
+						->with('msg-timeout', true);
+			}
+
+		}
+		else
+		{
+			$user->confirmed = 1;
+			if($user->save())
+			{
+				return Redirect::back()
+						->with('msg', 'User successfully confirmed')
+						->with('msg-type', 'success')
+						->with('msg-timeout', true);
+			}
+			else
+			{
+				return Redirect::back()
+						->with('msg', 'There\'s an error' )
+						->with('msg-type', 'danger')
+						->with('msg-timeout', true);
+			}
+
+		}
 
 	}
 }

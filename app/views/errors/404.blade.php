@@ -1,0 +1,1 @@
+/app/views/errors/404.blade.php

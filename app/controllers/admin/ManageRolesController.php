@@ -34,6 +34,8 @@ class ManageRolesController extends AdminController{
 
 	public function rapyd()
 	{
+
+
 		$data_view = $this->data_view;
 
 		$edit = DataEdit::source($this->model);
@@ -42,12 +44,26 @@ class ManageRolesController extends AdminController{
 		$edit->link('admin/roles', 'Role List', 'TR', array('class'=>'btn btn-primary'));
 
 
+		// Don't allow super administrator and administrator role to be edited
+		if(Input::get('modify') || Input::get('update'))
+		{
+
+			$id = Input::get('modify') ? Input::get('modify') : Input::get('update');
+			$role = $this->model->findOrFail($id);
+
+			if(($role->name == "Super Administrator" || $role->name == "Administrator"))
+			{
+				$edit->add('name', 'Name', 'text')->mode('readonly');
+			}
+		}
+
+
+
 		$data_view['edit'] = $edit;
 
 		return View::make('base/rapyd/crud', compact('data_view'));
 
 	}
-
 
 
 

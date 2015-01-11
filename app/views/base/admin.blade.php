@@ -96,7 +96,7 @@
                         </li>
 
                         <li>
-                            <a href="#"><i class="fa fa-wrench"></i> Roles & Permissions<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-ticket"></i> Roles & Permissions<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="{{route('roles.list')}}">Roles</a>

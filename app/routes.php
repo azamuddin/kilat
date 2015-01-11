@@ -25,10 +25,11 @@ Route::controller( 'users', 'UsersController');
 
 
 // Admin
-Route::group(array('prefix'=>'admin', 'before'=> 'auth'), function()
+Route::group(array('prefix'=>'admin', 'before'=>'administrator'), function()
 {
 	// Admin Home
 	Route::get('/', array('as'=>'admin', 'before'=>'auth', 'uses'=>function(){return View::make('base/admin');}));
+
 
 	// Manage Users
 	Route::get('users', array('as'=>'users.list', 'uses'=>'RapydManageUsersController@index'));
@@ -36,20 +37,24 @@ Route::group(array('prefix'=>'admin', 'before'=> 'auth'), function()
 	Route::post('manage/users', array('as'=>'users.store', 'uses'=>'RapydManageUsersController@rapyd'));
 	Route::patch('manage/users', array('as'=>'users.update', 'uses'=>'RapydManageUsersController@rapyd'));
 	Route::delete('manage/users', array('as'=>'users.delete', 'uses'=>'RapydManageUsersController@rapyd'));
+	Route::get('manage/users/toggle_confirm/{id}', array('as'=>'users.toggleConfirm', 'uses'=>'RapydManageUsersController@toggleConfirm'));
 
-	// Manage Roles
-	Route::get('roles', array('as'=>'roles.list', 'uses'=>'ManageRolesController@index'));
-	Route::get('manage/roles', 'ManageRolesController@rapyd');
-	Route::post('manage/roles', 'ManageRolesController@rapyd');
-	Route::patch('manage/roles', 'ManageRolesController@rapyd');
-	Route::delete('manage/roles', 'ManageRolesController@rapyd');
+	Route::group(array('before'=>'super_administrator_only'), function()
+	{
+		// Manage Roles
+		Route::get('roles', array('as'=>'roles.list', 'uses'=>'ManageRolesController@index'));
+		Route::get('manage/roles', 'ManageRolesController@rapyd');
+		Route::post('manage/roles', 'ManageRolesController@rapyd');
+		Route::patch('manage/roles', 'ManageRolesController@rapyd');
+		Route::delete('manage/roles', 'ManageRolesController@rapyd');
 
-	// Manage Permissions
-	Route::get('permissions', array('as'=>'permissions.list', 'uses'=>'ManagePermissionsController@index'));
-	Route::get('manage/permissions', 'ManagePermissionsController@rapyd');
-	Route::post('manage/permissions', 'ManagePermissionsController@rapyd');
-	Route::patch('manage/permissions', 'ManagePermissionsController@rapyd');
-	Route::delete('manage/permissions', 'ManagePermissionsController@rapyd');
+		// Manage Permissions
+		Route::get('permissions', array('as'=>'permissions.list', 'uses'=>'ManagePermissionsController@index'));
+		Route::get('manage/permissions', 'ManagePermissionsController@rapyd');
+		Route::post('manage/permissions', 'ManagePermissionsController@rapyd');
+		Route::patch('manage/permissions', 'ManagePermissionsController@rapyd');
+		Route::delete('manage/permissions', 'ManagePermissionsController@rapyd');
+	});
 
 });
 
