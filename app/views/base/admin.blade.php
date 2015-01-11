@@ -73,7 +73,7 @@
                             <a href="{{route('admin')}}"><i class="fa fa-dashboard"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="{{route('admin.users.index')}}"><i class="fa fa-users"></i> Manage Users</a>
+                            <a href="{{route('users.list')}}"><i class="fa fa-users"></i> Manage Users</a>
                         </li>
 
                         <li>

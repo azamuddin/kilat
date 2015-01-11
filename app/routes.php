@@ -25,13 +25,17 @@ Route::controller( 'users', 'UsersController');
 
 
 // Admin
-Route::group(array('prefix'=>'admin', 'before'=> ''), function()
+Route::group(array('prefix'=>'admin', 'before'=> 'auth'), function()
 {
 	// Admin Home
 	Route::get('/', array('as'=>'admin', 'before'=>'auth', 'uses'=>function(){return View::make('base/admin');}));
 
 	// Manage Users
-	Route::resource('users', 'ManageUsersController');
+	Route::get('users', array('as'=>'users.list', 'uses'=>'RapydManageUsersController@index'));
+	Route::get('manage/users', array('as'=>'users.add', 'uses'=>'RapydManageUsersController@rapyd'));
+	Route::post('manage/users', array('as'=>'users.store', 'uses'=>'RapydManageUsersController@rapyd'));
+	Route::patch('manage/users', array('as'=>'users.update', 'uses'=>'RapydManageUsersController@rapyd'));
+	Route::delete('manage/users', array('as'=>'users.delete', 'uses'=>'RapydManageUsersController@rapyd'));
 
 	// Manage Roles
 	Route::get('roles', array('as'=>'roles.list', 'uses'=>'ManageRolesController@index'));

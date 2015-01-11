@@ -20,7 +20,7 @@ class ManageUsersController extends AdminController {
 		$data_view = $this->data_view;
 
 		$user = User::findOrFail($id);
-		$action = 'admin/users/'.$id;
+		$action = 'admin/user/'.$id;
 
 
 		$data_view['model'] = $user;
