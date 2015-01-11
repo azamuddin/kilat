@@ -30,12 +30,29 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <style type="text/css">
+    div.global-message
+    {
+        position: absolute;
+        top:10px;
+        width: 60%;
+        margin-left: 20%;
+        z-index: 9999;
+        display: block;
+    }
+    </style>
+
 </head>
 
 <body>
-
+    <!-- Alert, Success, Error, Info Messages -->
+    @if(!is_null(Session::get('error-msg')))
+        <div class="alert alert-danger global-message">
+            {{Session::get('error-msg')}}
+        </div>
+    @endif
+    <!-- .End Messages -->
     <div id="wrapper">
-
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
@@ -50,7 +67,9 @@
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
-
+            <li>
+                {{Auth::user()->username}}
+            </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -132,6 +151,18 @@
     {{HTML::script('packages/metismenu/metismenu.min.js')}}
     <!-- Custom Theme JavaScript -->
     {{HTML::script('packages/sbadmin2/js/sb-admin-2.js')}}
+
+    <script type="text/javascript">
+    $(function()
+    {
+        // Global Message Box
+        $('.global-message').fadeIn('normal')
+        .click(function()
+        {
+            $(this).fadeOut();
+        })
+    })
+    </script>
 
 </body>
 
