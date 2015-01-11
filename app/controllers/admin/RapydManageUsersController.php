@@ -28,6 +28,7 @@ class RapydManageUsersController extends AdminController {
 		$grid->add('username', 'Username');
 		$grid->add('email', 'Email');
 		$grid->edit('manage/users', 'Action');
+		$grid->link('admin/manage/users/', 'Add New User', 'TR', array('class'=>'btn btn-primary'));
 
 		$data_view['filter'] = $filter;
 		$data_view['grid'] = $grid;
@@ -42,16 +43,38 @@ class RapydManageUsersController extends AdminController {
 	public function rapyd()
 	{
 		$data_view = $this->data_view;
+
+		
+		// If super admin, make it uneditable
+		if(Input::get('modify') || Input::get('update'))
+		{
+			$id = Input::get('modify') ? Input::get('modify') : Input::get('update');
+			$user = User::find($id);
+
+			if($user->username == 'superadmin')
+			{
+				return Redirect::to("admin/manage/users?show=$id");
+			}
+		}
+
+
 		$edit = DataEdit::source($this->model);
 		$edit->add('username', 'Username', 'text')->rule('required|min:5|max:30');
 		$edit->add('email', 'Email', 'text')->rule('email');
 		$edit->add('roles.name', 'Role', 'checkboxgroup')->options(Role::lists('name', 'id'))->rule('required');
-		// $edit->add('password', 'Password', 'password');
-		// $edit->add('password_confirmation', 'Password Confirmation', 'password');
+
+		$edit->link('admin/users', 'User List', 'TR', array('class'=>'btn btn-primary'));
+
+		$edit->saved(function() use ($edit)
+		{
+			return Redirect::back()
+					->with('msg', 'Successfully saved')
+					->with('msg-type', 'success')
+					->with('msg-timeout', true);
+		});
 
 		$data_view['edit'] = $edit;
-
-		return View::make('base/rapyd/crud', compact('data_view'));
+		return $edit->view('base/rapyd/crud', compact('data_view'));
 
 	}
 }

@@ -38,7 +38,7 @@
         width: 60%;
         margin-left: 20%;
         z-index: 9999;
-        display: block;
+        display: none;
     }
     </style>
 
@@ -46,9 +46,9 @@
 
 <body>
     <!-- Alert, Success, Error, Info Messages -->
-    @if(!is_null(Session::get('error-msg')))
-        <div class="alert alert-danger global-message">
-            {{Session::get('error-msg')}}
+    @if(!is_null(Session::get('msg')))
+        <div class="alert alert-{{Session::get('msg-type')}} global-message" data-timeout={{Session::get('msg-timeout')}}>
+            {{Session::get('msg')}}
         </div>
     @endif
     <!-- .End Messages -->
@@ -156,11 +156,17 @@
     $(function()
     {
         // Global Message Box
-        $('.global-message').fadeIn('normal')
+        $('.global-message').fadeIn('fast')
         .click(function()
         {
             $(this).fadeOut();
         })
+
+        function hideMessage()
+        {
+            $('.global-message[data-timeout="1"]').fadeOut('fast');
+        }
+        setTimeout(hideMessage, 3000);
     })
     </script>
 

@@ -23,6 +23,7 @@ class ManageRolesController extends AdminController{
 		$grid->add('name', 'Name');
 		$grid->edit('manage/roles', 'Action');
 		$grid->paginate(10);
+		$grid->link('admin/manage/roles', 'Add New Role', 'TR', array('class'=>'btn btn-primary'));
 
 		$data_view['filter'] = $filter;
 		$data_view['grid'] = $grid;
@@ -38,6 +39,8 @@ class ManageRolesController extends AdminController{
 		$edit = DataEdit::source($this->model);
 		$edit->add('name', 'Name', 'text');
 		$edit->add('permissions.permission_id', 'Permissions', 'checkboxgroup')->options(Permission::lists('display_name', 'id'));
+		$edit->link('admin/roles', 'Role List', 'TR', array('class'=>'btn btn-primary'));
+
 
 		$data_view['edit'] = $edit;
 

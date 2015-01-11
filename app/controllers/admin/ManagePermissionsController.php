@@ -25,6 +25,7 @@ class ManagePermissionsController extends AdminController {
 		$grid = DataGrid::source($filter);
 		$grid->add('display_name', 'Permission Name');
 		$grid->edit('manage/permissions', 'Action');
+		$grid->link('admin/manage/permissions', 'Add New Permission', 'TR', array('class'=>'btn btn-primary'));
 
 		$data_view['filter'] = $filter;
 		$data_view['grid'] = $grid;
@@ -45,10 +46,11 @@ class ManagePermissionsController extends AdminController {
 		$edit = DataEdit::source($this->model);
 		$edit->add('name', 'Name', 'text');
 		$edit->add('display_name', 'Display Name', 'text');
+		$edit->link('admin/permissions', 'Permision List', 'TR', array('class'=>'btn btn-primary'));
 
 		$data_view['edit'] = $edit;
 
-		return View::make('base/rapyd/crud', compact('data_view'));
+		return $edit->view('base/rapyd/crud', compact('data_view'));
 	}
 
 }
