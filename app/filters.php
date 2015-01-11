@@ -89,3 +89,6 @@ Route::filter('csrf', function()
 	}
 });
 
+Entrust::routeNeedsRole('admin', array('Super Administrator', 'Administrator'), Redirect::to('login'), false );
+Entrust::routeNeedsRole('admin/*', array('Super Administrator', 'Administrator'), Redirect::to('login'), false );
+Entrust::routeNeedsPermission('admin/roles', 'manage_roles', Redirect::to('admin'));
