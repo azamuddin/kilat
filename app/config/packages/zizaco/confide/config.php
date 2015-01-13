@@ -46,10 +46,10 @@ return array(
     |
     |
     */
-    'login_form' =>             'front.users.login',
-    'signup_form' =>            'front.users.create',
-    'forgot_password_form' =>   'front.users.forgot_password',
-    'reset_password_form' =>    'front.users.reset_password',
+    'login_form' =>             'front.auth.login',
+    'signup_form' =>            'front.auth.create',
+    'forgot_password_form' =>   'front.auth.forgot_password',
+    'reset_password_form' =>    'front.auth.reset_password',
 
     /*
     |--------------------------------------------------------------------------
